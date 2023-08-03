@@ -109,8 +109,12 @@ const RegisterTab = () => {
         if (response.data.success) {
           Alert.alert('Success', 'Register Success');
           await AsyncStorage.setItem('token', response.data.token);
-          const personalInfo = await getPersonalInfo(response.data.token);
-          dispatch(updateUser(personalInfo));
+          try {
+            const personalInfo = await getPersonalInfo(response.data.token);
+            dispatch(updateUser(personalInfo));
+          } catch (error) {
+            console.log(error);
+          }
           dispatch(updateToken(response.data.token));
         }
       } catch (error) {

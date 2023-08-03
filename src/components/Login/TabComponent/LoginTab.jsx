@@ -46,8 +46,12 @@ const LoginTab = () => {
         const response = await handleLoginApi({email, password});
         if (response.data.success) {
           await AsyncStorage.setItem('token', response.data.token);
-          const personalInfo = await getPersonalInfo(response.data.token);
-          dispatch(updateUser(personalInfo));
+          try {
+            const personalInfo = await getPersonalInfo(response.data.token);
+            dispatch(updateUser(personalInfo));
+          } catch (error) {
+            console.log(error);
+          }
           dispatch(updateToken(response.data.token));
           showMessage('Login Success');
         } else {

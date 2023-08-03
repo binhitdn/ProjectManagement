@@ -85,7 +85,6 @@ export default Header;
 
 const styles = StyleSheet.create({
   headerContainer: {
-    // backgroundColor: 'red',
     height: 70,
     width: '100%',
     padding: 10,
