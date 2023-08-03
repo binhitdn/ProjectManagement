@@ -119,9 +119,7 @@ const RegisterTab = () => {
         }
       } catch (error) {
         if (error.response) {
-          Alert.alert('Error', error.response.data.message);
-        } else {
-          Alert.alert('Error', 'Something went wrong!');
+          Alert.alert('Error', error.response.data.error);
         }
       }
     }

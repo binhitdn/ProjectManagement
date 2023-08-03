@@ -66,13 +66,13 @@ const Header = () => {
           }>
           <Menu.Item
             onPress={() => {}}
-            title="My account"
+            title="マイアカウント"
             style={styles.menuItem}
           />
           <Divider />
           <Menu.Item
             onPress={handleLogout}
-            title="Logout"
+            title="ログアウト"
             style={styles.menuItem}
           />
         </Menu>

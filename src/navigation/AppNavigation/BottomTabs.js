@@ -5,10 +5,13 @@ import SettingsScreen from '@screens/SettingsScreen';
 import HomeScreen from '@screens/HomeScreen';
 import TabBarIcon from '@components/TabBarIcon';
 import {COLORS} from '@constants/styles';
+import ManagerUser from '@screens/ManagerUser';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 const SettingsStack = createStackNavigator();
 const HomeStack = createStackNavigator();
+const ManagerUserStack = createStackNavigator();
 
 const HomeStackScreen = () => (
   <HomeStack.Navigator>
@@ -29,6 +32,15 @@ const SettingsStackScreen = () => (
     />
   </SettingsStack.Navigator>
 );
+const ManagerUserStackScreen = () => (
+  <SettingsStack.Navigator>
+    <SettingsStack.Screen
+      name="ManagerUser"
+      component={ManagerUser}
+      options={{headerShown: false}}
+    />
+  </SettingsStack.Navigator>
+);
 
 const renderTabBarIcon = (color, size, name) => {
   return <TabBarIcon color={color} size={size} name={name} />;
@@ -40,17 +52,26 @@ const createScreenOptions = (label, iconName) => ({
 });
 
 const BottomTab = () => {
+  const {user} = useSelector(state => state.auth);
+
   return (
     <Tab.Navigator screenOptions={screenOptions}>
       <Tab.Screen
         name="HomeTab"
         component={HomeStackScreen}
-        options={createScreenOptions('Home', 'home')}
+        options={createScreenOptions('ホーム', 'home')}
       />
+      {user.role === 'admin' && (
+        <Tab.Screen
+          name="ManagerUserStackScreen"
+          component={ManagerUserStackScreen}
+          options={createScreenOptions('ユーザー管理', 'user')}
+        />
+      )}
       <Tab.Screen
         name="SettingTab"
         component={SettingsStackScreen}
-        options={createScreenOptions('Settings', 'user')}
+        options={createScreenOptions('設定', 'setting')}
       />
     </Tab.Navigator>
   );
