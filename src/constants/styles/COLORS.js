@@ -1,0 +1,27 @@
+// const isDarkMode = false;
+export default {
+  PRIMARY: '#46ff52',
+  SECONDARY: '#00ff66',
+  THIRD: '#e5ffca',
+  BUTTON: '#a2d764',
+  ICON: '#00ff66',
+  // STATUS_BAR: isDarkMode ? '#000000' : '#ffffff',
+  STATUS_BAR: '#000000',
+  WHITE: '#FFFFFF',
+  BLACK: '#000000',
+  TRANSPARENT: 'transparent',
+
+  TEXT: '#212121',
+  TEXT_SECONDARY: '#757575',
+  BACKGROUND: '#ffffff',
+  BACKGROUND_SECONDARY: '#f5f5f5',
+  SHADOW: '#000000',
+  DARK: '#000000',
+  SUCCESS: '#00ff66',
+  DANGER: '#ff0000',
+  WARNING: '#ff9900',
+  INFO: '#00ccff',
+  DISABLED: '#777777',
+  BORDER: '#a2d764',
+  PLACEHOLDER: '#777777',
+};
