@@ -1,53 +1,19 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import SettingsScreen from '@screens/SettingsScreen';
-import HomeScreen from '@screens/HomeScreen';
 import TabBarIcon from '@components/TabBarIcon';
 import {COLORS} from '@constants/styles';
-import ManagerUser from '@screens/ManagerUser';
+import UserManagementScreen from '@screens/user/UserManagementScreen';
 import {useSelector} from 'react-redux';
+import ProjectManagementScreen from '@screens/project/ProjectManagementScreen';
 
 const Tab = createBottomTabNavigator();
-const SettingsStack = createStackNavigator();
-const HomeStack = createStackNavigator();
-const ManagerUserStack = createStackNavigator();
 
-const HomeStackScreen = () => (
-  <HomeStack.Navigator>
-    <HomeStack.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{headerShown: false}}
-    />
-  </HomeStack.Navigator>
-);
-
-const SettingsStackScreen = () => (
-  <SettingsStack.Navigator>
-    <SettingsStack.Screen
-      name="Settings"
-      component={SettingsScreen}
-      options={{headerShown: false}}
-    />
-  </SettingsStack.Navigator>
-);
-const ManagerUserStackScreen = () => (
-  <SettingsStack.Navigator>
-    <SettingsStack.Screen
-      name="ManagerUser"
-      component={ManagerUser}
-      options={{headerShown: false}}
-    />
-  </SettingsStack.Navigator>
-);
-
-const renderTabBarIcon = (color, size, name) => {
-  return <TabBarIcon color={color} size={size} name={name} />;
+const renderTabBarIcon = (size, name) => {
+  return <TabBarIcon size={size} name={name} />;
 };
 
 const createScreenOptions = (label, iconName) => ({
-  tabBarIcon: ({color, size}) => renderTabBarIcon(color, 35, iconName),
+  tabBarIcon: ({size}) => renderTabBarIcon(30, iconName),
   tabBarLabel: label,
 });
 
@@ -56,23 +22,23 @@ const BottomTab = () => {
 
   return (
     <Tab.Navigator screenOptions={screenOptions}>
-      <Tab.Screen
+      {/* <Tab.Screen
         name="HomeTab"
-        component={HomeStackScreen}
+        component={HomeScreen}
         options={createScreenOptions('ホーム', 'home')}
+      /> */}
+      <Tab.Screen
+        name="ProjectTab"
+        component={ProjectManagementScreen}
+        options={createScreenOptions('案件管理', 'profile')}
       />
       {user.role === 'admin' && (
         <Tab.Screen
-          name="ManagerUserStackScreen"
-          component={ManagerUserStackScreen}
+          name="ManagementUserStackScreen"
+          component={UserManagementScreen}
           options={createScreenOptions('ユーザー管理', 'user')}
         />
       )}
-      <Tab.Screen
-        name="SettingTab"
-        component={SettingsStackScreen}
-        options={createScreenOptions('設定', 'setting')}
-      />
     </Tab.Navigator>
   );
 };
@@ -81,16 +47,16 @@ export default BottomTab;
 
 const screenOptions = {
   headerShown: false,
-  tabBarActiveTintColor: COLORS.ICON,
-  tabBarInactiveTintColor: COLORS.TEXT_SECONDARY,
+  tabBarActiveTintColor: COLORS.PRIMARY,
+  tabBarInactiveTintColor: 'gray',
   tabBarStyle: {
     backgroundColor: '#fff',
-    height: 80,
+    height: '10%',
     paddingBottom: 10,
-    position: 'absolute',
-    left: '5%',
-    right: '5%',
-    bottom: 20,
+    // position: 'absolute',
+    // left: '5%',
+    // right: '5%',
+    // bottom: 20,
     borderRadius: 5,
     headerShown: false,
     shadowColor: COLORS.SHADOW,

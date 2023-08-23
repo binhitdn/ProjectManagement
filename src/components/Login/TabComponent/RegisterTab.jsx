@@ -1,27 +1,11 @@
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  ScrollView,
-  Keyboard,
-} from 'react-native';
+import {Text, ScrollView, Keyboard} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {COLORS} from '@constants/styles';
-import TextInputComponent from '@components/TextInput/TextInputComponent';
-import {
-  validateName,
-  validateEmail,
-  validatePassword,
-  validateConfirmPassword,
-} from '@utils/validate';
-import styles from '@styles/Login/authStyle';
-import {handleRegisterApi} from '@api/authApi';
-import {updateToken, updateUser} from '@redux/slices/authSlice';
+import {ButtonComponent, Form, Input} from '@components/customize';
+import styles from '@components/Login/TabComponent/authStyle';
+import {register} from '@redux/slices/authSlice';
 import {useDispatch} from 'react-redux';
-import getPersonalInfo from '@helpers/getPersonalInfo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterTab = () => {
   //states
@@ -31,15 +15,6 @@ const RegisterTab = () => {
     email: '',
     password: '',
     confirmPassWord: '',
-    showPassword: false,
-  });
-
-  // States error
-  const [errors, setErrors] = React.useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
   });
 
   const dispatch = useDispatch();
@@ -75,54 +50,13 @@ const RegisterTab = () => {
   }, []);
   // handleRegister function
   const handleRegister = async () => {
-    const {firstName, lastName, email, password, confirmPassWord} = form;
-    const nameValidation = validateName(firstName, lastName);
-    const emailValidation = validateEmail(email);
-    const passwordValidation = validatePassword(password);
-    const confirmPasswordValidation = validateConfirmPassword(
-      password,
-      confirmPassWord,
+    dispatch(
+      register({
+        name: form.firstName + ' ' + form.lastName,
+        email: form.email,
+        password: form.password,
+      }),
     );
-
-    setErrors({
-      name: nameValidation.error,
-      email: emailValidation.error,
-      password: passwordValidation.error,
-      confirmPassword: confirmPasswordValidation.error,
-    });
-
-    if (
-      nameValidation.isValid &&
-      emailValidation.isValid &&
-      passwordValidation.isValid &&
-      confirmPasswordValidation.isValid
-    ) {
-      let fullName = lastName + firstName;
-      let data = {
-        name: fullName,
-        email: email,
-        password: password,
-      };
-      try {
-        const response = await handleRegisterApi(data);
-        console.log(response);
-        if (response.data.success) {
-          Alert.alert('Success', 'Register Success');
-          await AsyncStorage.setItem('token', response.data.token);
-          try {
-            const personalInfo = await getPersonalInfo(response.data.token);
-            dispatch(updateUser(personalInfo));
-          } catch (error) {
-            console.log(error);
-          }
-          dispatch(updateToken(response.data.token));
-        }
-      } catch (error) {
-        if (error.response) {
-          Alert.alert('Error', error.response.data.error);
-        }
-      }
-    }
   };
 
   const handleChange = (name, value) => {
@@ -134,11 +68,14 @@ const RegisterTab = () => {
       ref={refs.scrollView}
       contentContainerStyle={{flexGrow: 1}}
       showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        <Text style={styles.loginText}>Register</Text>
-
-        <View style={styles.inputsName}>
-          <TextInputComponent
+      <Form.Container>
+        <Text style={styles.loginText}>登録</Text>
+        <Form.View
+          style={{
+            marginBottom: 20,
+          }}>
+          <Input
+            type="text"
             ref={refs.firstName}
             placeholder="First Name"
             placeholderTextColor={COLORS.PLACEHOLDER}
@@ -149,7 +86,8 @@ const RegisterTab = () => {
             leftIcon={<Icon name="user" size={20} color={COLORS.ICON} />}
             // onSubmitEditing={() => refs.lastName.current.focus()}
           />
-          <TextInputComponent
+          <Input
+            type="text"
             ref={refs.lastName}
             placeholder="Last Name"
             placeholderTextColor={COLORS.PLACEHOLDER}
@@ -160,12 +98,14 @@ const RegisterTab = () => {
             leftIcon={<Icon name="user" size={20} color={COLORS.ICON} />}
             // onSubmitEditing={() => refs.email.current.focus()}
           />
-        </View>
-        <Text style={styles.errorText}>{errors.name ? errors.name : null}</Text>
-        <TextInputComponent
+        </Form.View>
+
+        <Input
+          type="text"
           ref={refs.email}
-          placeholder="Email"
+          placeholder="Eメール"
           placeholderTextColor={COLORS.PLACEHOLDER}
+          containerStyle={styles.textInputContainer}
           style={styles.textInput}
           value={form.email}
           onChangeText={text => handleChange('email', text)}
@@ -175,63 +115,37 @@ const RegisterTab = () => {
             // refs.password.current.focus();
           }}
         />
-        <Text style={styles.errorText}>
-          {' '}
-          {errors.email ? errors.email : null}
-        </Text>
-        <TextInputComponent
+
+        <Input
+          type="password"
           ref={refs.password}
-          placeholder="Password"
+          placeholder="パスワード"
           placeholderTextColor={COLORS.PLACEHOLDER}
+          containerStyle={styles.textInputContainer}
           style={styles.textInput}
           value={form.password}
           onChangeText={text => handleChange('password', text)}
           onFocus={() => refs.scrollView.current.scrollToEnd({animated: true})}
-          secureTextEntry={!form.showPassword}
           leftIcon={<Icon name="lock" size={20} color={COLORS.ICON} />}
-          rightIcon={
-            <Icon
-              name={form.showPassword ? 'eye-slash' : 'eye'}
-              size={20}
-              onPress={() => handleChange('showPassword', !form.showPassword)}
-              color={COLORS.ICON}
-            />
-          }
           // onSubmitEditing={() => refs.confirmPassWord.current.focus()}
         />
-        <Text style={styles.errorText}>
-          {errors.password ? errors.password : null}
-        </Text>
-        <TextInputComponent
+
+        <Input
+          type="password"
           ref={refs.confirmPassWord}
-          placeholder="Confirm Password"
+          placeholder="パスワードを確認する"
           placeholderTextColor={COLORS.PLACEHOLDER}
+          containerStyle={styles.textInputContainer}
           style={styles.textInput}
           value={form.confirmPassWord}
           onChangeText={text => handleChange('confirmPassWord', text)}
           onFocus={() => refs.scrollView.current.scrollToEnd({animated: true})}
-          secureTextEntry={!form.showPassword}
           leftIcon={<Icon name="lock" size={20} color={COLORS.ICON} />}
-          rightIcon={
-            <Icon
-              name={form.showPassword ? 'eye-slash' : 'eye'}
-              size={20}
-              onPress={() => handleChange('showPassword', !form.showPassword)}
-              color={COLORS.ICON}
-            />
-          }
           onSubmitEditing={handleRegister}
         />
-        <Text style={styles.errorText}>
-          {errors.confirmPassword ? errors.confirmPassword : null}
-        </Text>
 
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={handleRegister}>
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
-      </View>
+        <ButtonComponent title="登録" onPress={handleRegister} />
+      </Form.Container>
     </ScrollView>
   );
 };

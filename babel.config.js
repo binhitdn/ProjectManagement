@@ -17,6 +17,7 @@ module.exports = {
           '@utils': './src/utils',
           '@axios': './src/axios.js',
           '@helpers': './src/helpers',
+          '@customize': './src/components/customize',
         },
       },
     ],

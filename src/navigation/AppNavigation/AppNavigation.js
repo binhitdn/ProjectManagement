@@ -1,7 +1,10 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import SettingsScreen from '@screens/SettingsScreen';
 import BottomTab from './BottomTabs';
+import ProjectScreen from '@screens/project/ProjectScreen';
+import CreateUserScreen from '@screens/user/CreateUserScreen';
+import CreateProjectScreen from '@screens/project/CreateProjectScreen';
+import EditUserScreen from '@screens/user/EditUserScreen';
 
 const AppStack = createStackNavigator();
 const AppNavigation = () => {
@@ -12,9 +15,20 @@ const AppNavigation = () => {
       options: {headerShown: false},
     },
     {
-      name: 'Settings',
-      component: SettingsScreen,
-      options: {headerShown: false},
+      name: 'Project',
+      component: ProjectScreen,
+    },
+    {
+      name: 'CreateUser',
+      component: CreateUserScreen,
+    },
+    {
+      name: 'CreateProject',
+      component: CreateProjectScreen,
+    },
+    {
+      name: 'EditUser',
+      component: EditUserScreen,
     },
   ];
   return (

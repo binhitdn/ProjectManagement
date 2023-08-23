@@ -6,6 +6,7 @@ import {Button, Divider, Menu} from 'react-native-paper';
 import TabBarIcon from '@components/TabBarIcon';
 import {updateToken, updateUser} from '@redux/slices/authSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const Header = () => {
   const [visibleMenu, setVisibleMenu] = React.useState(false);
   const {user} = useSelector(state => state.auth);

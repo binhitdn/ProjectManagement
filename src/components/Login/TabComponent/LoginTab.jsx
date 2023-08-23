@@ -1,17 +1,12 @@
-import {Text, View, TouchableOpacity, Keyboard} from 'react-native';
+import {Text, View, Keyboard} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {COLORS} from '@constants/styles';
-import TextInputComponent from '@components/TextInput/TextInputComponent';
-import {validateEmail, validatePassword} from '@utils/validate';
-import styles from '@styles/Login/authStyle';
+import styles from '@components/Login/TabComponent/authStyle';
 import SocialConnectOptions from './SocialConnectOptions';
-import {useToast} from '@hooks/useToast';
-import {handleLoginApi} from '@api/authApi';
 import {useDispatch} from 'react-redux';
-import {updateUser, updateToken} from '@redux/slices/authSlice';
-import getPersonalInfo from '@helpers/getPersonalInfo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {login} from '@redux/slices/authSlice';
+import {ButtonComponent, Input} from '@components/customize';
 
 const LoginTab = () => {
   // State
@@ -20,57 +15,22 @@ const LoginTab = () => {
     password: '',
     showPassword: false,
   });
-  const [errors, setErrors] = React.useState({
-    email: '',
-    password: '',
-  });
+
   const refs = {
     email: React.useRef(),
     password: React.useRef(),
   };
-  const {showMessage} = useToast();
+
   const dispatch = useDispatch();
 
   // handleLogin function
   const handleLogin = async () => {
-    const {email, password} = form;
-    const emailValidation = validateEmail(email);
-    const passwordValidation = validatePassword(password);
-
-    setErrors({
-      email: emailValidation.error,
-      password: passwordValidation.error,
-    });
-    if (emailValidation.isValid && passwordValidation.isValid) {
-      try {
-        const response = await handleLoginApi({email, password});
-        if (response.data.success) {
-          await AsyncStorage.setItem('token', response.data.token);
-          try {
-            const personalInfo = await getPersonalInfo(response.data.token);
-            dispatch(updateUser(personalInfo));
-          } catch (error) {
-            console.log(error);
-          }
-          dispatch(updateToken(response.data.token));
-          showMessage('Login Success');
-        } else {
-          showMessage(
-            response.data.error
-              ? response.data.error
-              : 'Login Failed. Please try again',
-          );
-        }
-      } catch (error) {
-        showMessage(
-          error.response.data.error
-            ? error.response.data.error
-            : 'An error occurred. Please try again',
-        );
-      }
-    } else {
-      showMessage('Login Failed. Please try again');
-    }
+    dispatch(
+      login({
+        email: form.email,
+        password: form.password,
+      }),
+    );
   };
 
   const handleChange = (name, value) => {
@@ -99,44 +59,36 @@ const LoginTab = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.loginText}>Login</Text>
+      <Text style={styles.loginText}>ログイン</Text>
 
-      <TextInputComponent
+      <Input
         ref={refs.email}
-        placeholder="Email"
+        type="text"
+        placeholder="Eメール"
         placeholderTextColor={COLORS.PLACEHOLDER}
         style={styles.textInput}
+        containerStyle={styles.textInputContainer}
         value={form.email}
         onChangeText={text => handleChange('email', text)}
         leftIcon={<Icon name="user" size={20} color={COLORS.ICON} />}
         // onSubmitEditing={() => refs.password.current.focus()}
       />
-      <Text style={styles.errorText}>{errors.email ? errors.email : ''}</Text>
-      <TextInputComponent
-        placeholder="Password"
+
+      <Input
+        type="password"
+        placeholder="パスワード"
         placeholderTextColor={COLORS.PLACEHOLDER}
         style={styles.textInput}
+        containerStyle={styles.textInputContainer}
         ref={refs.password}
         value={form.password}
         onChangeText={text => handleChange('password', text)}
         onSubmitEditing={handleLogin}
         secureTextEntry={!form.showPassword}
         leftIcon={<Icon name="lock" size={20} color={COLORS.ICON} />}
-        rightIcon={
-          <Icon
-            name={form.showPassword ? 'eye-slash' : 'eye'}
-            size={20}
-            onPress={() => handleChange('showPassword', !form.showPassword)}
-            color={COLORS.ICON}
-          />
-        }
       />
-      <Text style={styles.errorText}>
-        {errors.password ? errors.password : ''}
-      </Text>
-      <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
+
+      <ButtonComponent title="ログイン" onPress={handleLogin} />
       <SocialConnectOptions />
     </View>
   );

@@ -34,7 +34,9 @@ const SocialConnectOptions = () => {
     <View style={styles.container}>
       <View style={styles.separator}>
         <View style={styles.separatorLine} />
-        <Text>or connect with</Text>
+        <Text>
+          <Text style={{color: COLORS.TEXT}}>または</Text>
+        </Text>
         <View style={styles.separatorLine} />
       </View>
       <View style={styles.optionsContainer}>

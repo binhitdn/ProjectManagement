@@ -4,15 +4,14 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import RegisterTab from '@components/Login/TabComponent/RegisterTab';
 import LoginTab from '@components/Login/TabComponent/LoginTab';
 import {COLORS} from '@constants/styles';
-import FormContainer from '@components/FormContainer/FormContainer';
+import {Container} from '@components/customize';
 
-// MainContainer
 const AuthenticationScreen = () => {
   return (
-    <FormContainer style={styles.MainContainer}>
+    <Container>
       <ImageComponent />
       <FormComponent />
-    </FormContainer>
+    </Container>
   );
 };
 
@@ -59,7 +58,7 @@ const FormComponent = () => {
           name="LoginTabTop"
           component={LoginTab}
           options={{
-            tabBarLabel: 'Login',
+            tabBarLabel: 'ログイン',
           }}
         />
 
@@ -67,7 +66,7 @@ const FormComponent = () => {
           name="RegisterTapTop"
           component={RegisterTab}
           options={{
-            tabBarLabel: 'Register',
+            tabBarLabel: '登録',
           }}
         />
       </Tab.Navigator>
@@ -78,10 +77,6 @@ const FormComponent = () => {
 export default AuthenticationScreen;
 
 const styles = StyleSheet.create({
-  MainContainer: {
-    flex: 1,
-    backgroundColor: COLORS.BACKGROUND,
-  },
   firstContainer: {
     flex: 1,
     justifyContent: 'center',

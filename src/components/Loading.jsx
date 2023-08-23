@@ -1,12 +1,8 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import LottieView from 'lottie-react-native';
 
-const Loading = ({visible = false}) => {
-  if (!visible) {
-    return null;
-  }
-
+const Loading = () => {
   return (
     <View style={styles.container}>
       <LottieView
