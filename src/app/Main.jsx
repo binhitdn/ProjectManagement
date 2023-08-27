@@ -13,16 +13,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Main = () => {
   const {token, user} = useSelector(state => state.auth);
+  const {loading} = useSelector(state => state.system);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     checkLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
     if (token) {
       dispatch(fetchUserInfo(token));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   let checkLogin = async () => {
@@ -43,6 +46,7 @@ const Main = () => {
         translucent={false}
       />
       {token ? user?._id ? <AppNavigation /> : <Loading /> : <AuthNavigation />}
+      {loading && <Loading />}
     </NavigationContainer>
   );
 };

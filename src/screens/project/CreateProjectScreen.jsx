@@ -5,7 +5,7 @@ import {handleGetUsersApi} from '@api/userApi';
 import {useDispatch, useSelector} from 'react-redux';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Entypo';
-import {createProject} from '@redux/slices/projectSlice';
+import {createProject} from '@redux/actions/projectActions';
 import {COLORS} from '@constants/styles';
 import {useNavigation} from '@react-navigation/native';
 
@@ -26,6 +26,7 @@ const CreateProjectScreen = () => {
 
   React.useEffect(() => {
     getUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getUsers = async () => {

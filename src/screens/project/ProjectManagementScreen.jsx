@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import SearchInput from '@components/customize/Input/SearchInput';
-import {fetchProjects} from '@redux/slices/projectSlice';
-import Header from '@components/Header';
 import Icon from 'react-native-vector-icons/AntDesign';
+import SearchInput from '@components/customize/Input/SearchInput';
+import Header from '@components/Header';
+import {fetchProjects} from '@redux/actions/projectActions';
 
 const ProjectManagement = ({navigation}) => {
   const [search, setSearch] = React.useState('');
@@ -24,6 +24,7 @@ const ProjectManagement = ({navigation}) => {
   React.useEffect(() => {
     dispatch(fetchProjects());
     setProjectsView(projects);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {

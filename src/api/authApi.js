@@ -20,5 +20,15 @@ const handleGetPersonalInfoApi = token => {
     },
   });
 };
+const handleForgotPasswordApi = email => {
+  return axios.post('/api/v1/auth/forgotpassword', {
+    email: email,
+  });
+};
 
-export {handleLoginApi, handleRegisterApi, handleGetPersonalInfoApi};
+export {
+  handleLoginApi,
+  handleRegisterApi,
+  handleGetPersonalInfoApi,
+  handleForgotPasswordApi,
+};

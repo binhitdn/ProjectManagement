@@ -22,4 +22,5 @@ export default {
   DISABLED: '#bdc3c7',
   BORDER: '#27ae60',
   PLACEHOLDER: '#bdc3c7',
+  MODAL_BACKGROUND: 'rgba(0, 0, 0, 0.5)',
 };

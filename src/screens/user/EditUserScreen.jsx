@@ -1,4 +1,4 @@
-import {Text, Alert} from 'react-native';
+import {Text} from 'react-native';
 import React, {useState} from 'react';
 import {ButtonComponent, Input, Form} from '@components/customize';
 import {useDispatch} from 'react-redux';
@@ -15,6 +15,7 @@ const EditUserScreen = ({route}) => {
 
   React.useEffect(() => {
     setName(user.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleEditUser = async () => {

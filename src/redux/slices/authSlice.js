@@ -1,11 +1,7 @@
-import {
-  handleGetPersonalInfoApi,
-  handleLoginApi,
-  handleRegisterApi,
-} from '@api/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import {Alert} from 'react-native';
+import {fetchUserInfo, login, register} from '@redux/actions/authActions';
 
 const initialState = {
   user: {},
@@ -13,21 +9,6 @@ const initialState = {
   loading: false,
   error: null,
 };
-const fetchUserInfo = createAsyncThunk(
-  'auth/fetchUserInfo',
-  async (token, {getState}) => {
-    const response = await handleGetPersonalInfoApi(token);
-    return response.data.data;
-  },
-);
-const login = createAsyncThunk('auth/login', async data => {
-  const response = await handleLoginApi(data);
-  return response.data;
-});
-const register = createAsyncThunk('auth/register', async data => {
-  const response = await handleRegisterApi(data);
-  return response.data;
-});
 
 const systemSlice = createSlice({
   name: 'auth',

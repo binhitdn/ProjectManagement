@@ -1,61 +1,17 @@
-import {
-  createProjectApi,
-  deleteProjectApi,
-  getProjectsApi,
-  updateProjectApi,
-} from '@api/projectApi';
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import {Alert} from 'react-native';
+import {
+  fetchProjects,
+  updateProject,
+  deleteProject,
+  createProject,
+} from '@redux/actions/projectActions';
 
 const initialState = {
   projects: [],
   loading: false,
   error: null,
 };
-
-export const fetchProjects = createAsyncThunk(
-  'project/fetchProjects',
-  async (arg, {getState}) => {
-    const token = getState().auth.token;
-    const response = await getProjectsApi(token);
-    return response.data.data;
-  },
-);
-
-export const updateProject = createAsyncThunk(
-  'project/updateProject',
-  async (project, {getState}) => {
-    const token = getState().auth.token;
-    console.log(project);
-    const response = await updateProjectApi(project._id, project, token);
-    return response.data;
-  },
-);
-
-export const deleteProject = createAsyncThunk(
-  'project/deleteProject',
-  async (projectId, {getState}) => {
-    const token = getState().auth.token;
-    const response = await deleteProjectApi(projectId, token);
-    return {
-      projectId,
-      data: response.data,
-    };
-  },
-);
-
-export const createProject = createAsyncThunk(
-  'project/createProject',
-  async (project, {getState, rejectWithValue}) => {
-    try {
-      const token = getState().auth.token;
-      const response = await createProjectApi(project, token);
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  },
-);
 
 const projectSlice = createSlice({
   name: 'project',

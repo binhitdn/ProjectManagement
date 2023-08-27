@@ -1,13 +1,13 @@
-import {ButtonComponent, Input} from '@components/customize';
-import {COLORS} from '@constants/styles';
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, View, Text, ScrollView, Image, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {deleteProject, updateProject} from '@redux/slices/projectSlice';
 import {getProjectDetailApi} from '@api/projectApi';
+import {ButtonComponent, Input} from '@components/customize';
+import {COLORS} from '@constants/styles';
 import STATUS from '@constants/status';
+import {deleteProject, updateProject} from '@redux/actions/projectActions';
 
 const ProjectScreen = ({route}) => {
   const [project, setProject] = React.useState({});
@@ -18,6 +18,7 @@ const ProjectScreen = ({route}) => {
 
   React.useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getData = async () => {

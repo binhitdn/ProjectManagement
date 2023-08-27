@@ -1,8 +1,8 @@
-import {Text, Alert} from 'react-native';
 import React, {useState} from 'react';
+import {Text, Alert} from 'react-native';
 import {ButtonComponent, Input, Form} from '@components/customize';
 import {useDispatch, useSelector} from 'react-redux';
-import {createUser} from '@redux/slices/userSlice';
+import {createUser} from '@redux/actions/userActions';
 import {useNavigation} from '@react-navigation/native';
 import roles from '@constants/role';
 

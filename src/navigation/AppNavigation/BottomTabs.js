@@ -20,25 +20,34 @@ const createScreenOptions = (label, iconName) => ({
 const BottomTab = () => {
   const {user} = useSelector(state => state.auth);
 
+  const tabScreens = [
+    {
+      name: 'ProjectTab',
+      component: ProjectManagementScreen,
+      options: createScreenOptions('案件管理', 'profile'),
+      allowedRoles: ['admin', 'user'],
+    },
+    {
+      name: 'ManagementUserStackScreen',
+      component: UserManagementScreen,
+      options: createScreenOptions('ユーザー管理', 'user'),
+      allowedRoles: ['admin'],
+    },
+  ];
+  const filteredTabScreens = tabScreens.filter(item => {
+    return item.allowedRoles.includes(user.role);
+  });
+
   return (
     <Tab.Navigator screenOptions={screenOptions}>
-      {/* <Tab.Screen
-        name="HomeTab"
-        component={HomeScreen}
-        options={createScreenOptions('ホーム', 'home')}
-      /> */}
-      <Tab.Screen
-        name="ProjectTab"
-        component={ProjectManagementScreen}
-        options={createScreenOptions('案件管理', 'profile')}
-      />
-      {user.role === 'admin' && (
+      {filteredTabScreens.map((item, index) => (
         <Tab.Screen
-          name="ManagementUserStackScreen"
-          component={UserManagementScreen}
-          options={createScreenOptions('ユーザー管理', 'user')}
+          key={index}
+          name={item.name}
+          component={item.component}
+          options={item.options}
         />
-      )}
+      ))}
     </Tab.Navigator>
   );
 };
@@ -53,10 +62,6 @@ const screenOptions = {
     backgroundColor: '#fff',
     height: '10%',
     paddingBottom: 10,
-    // position: 'absolute',
-    // left: '5%',
-    // right: '5%',
-    // bottom: 20,
     borderRadius: 5,
     headerShown: false,
     shadowColor: COLORS.SHADOW,

@@ -25,6 +25,7 @@ const UserManagement = ({navigation}) => {
 
   React.useEffect(() => {
     dispatch(fetchUsers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
