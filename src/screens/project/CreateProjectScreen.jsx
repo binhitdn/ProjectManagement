@@ -46,8 +46,8 @@ const CreateProjectScreen = () => {
     setSkills(skills.filter((_, i) => i !== index));
   };
 
-  const handleChangeText = (name, text) => {
-    switch (name) {
+  const handleChangeText = (nameP, text) => {
+    switch (nameP) {
       case 'name':
         setName(text);
         break;

@@ -29,13 +29,19 @@ const Main = () => {
   }, [token]);
 
   let checkLogin = async () => {
-    const jsonData = await AsyncStorage.getItem('token');
-    if (jsonData !== null) {
-      dispatch(updateToken(jsonData));
-      dispatch(fetchUserInfo(jsonData));
+    try {
+      const jsonData = await AsyncStorage.getItem('token');
+
+      if (jsonData !== null) {
+        dispatch(updateToken(jsonData));
+        dispatch(fetchUserInfo(jsonData));
+        SplashScreen.hide();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
       SplashScreen.hide();
     }
-    SplashScreen.hide();
   };
 
   return (

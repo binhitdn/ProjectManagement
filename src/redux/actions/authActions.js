@@ -5,24 +5,18 @@ import {
   handleRegisterApi,
 } from '@api/authApi';
 
-const fetchUserInfo = createAsyncThunk(
+export const fetchUserInfo = createAsyncThunk(
   'auth/fetchUserInfo',
   async (token, {getState}) => {
-    try {
-      const response = await handleGetPersonalInfoApi(token);
-      return response.data.data;
-    } catch (err) {
-      return err.message;
-    }
+    const response = await handleGetPersonalInfoApi(token);
+    return response.data.data;
   },
 );
-const login = createAsyncThunk('auth/login', async data => {
+export const login = createAsyncThunk('auth/login', async data => {
   const response = await handleLoginApi(data);
   return response.data;
 });
-const register = createAsyncThunk('auth/register', async data => {
+export const register = createAsyncThunk('auth/register', async data => {
   const response = await handleRegisterApi(data);
   return response.data;
 });
-
-export {fetchUserInfo, login, register};

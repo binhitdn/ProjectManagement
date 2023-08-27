@@ -6,7 +6,7 @@ import {
 } from '@api/projectApi';
 import {createAsyncThunk} from '@reduxjs/toolkit';
 
-const updateProject = createAsyncThunk(
+export const updateProject = createAsyncThunk(
   'project/updateProject',
   async (project, {getState, rejectWithValue}) => {
     try {
@@ -19,7 +19,7 @@ const updateProject = createAsyncThunk(
   },
 );
 
-const deleteProject = createAsyncThunk(
+export const deleteProject = createAsyncThunk(
   'project/deleteProject',
   async (projectId, {getState, rejectWithValue}) => {
     try {
@@ -35,7 +35,7 @@ const deleteProject = createAsyncThunk(
   },
 );
 
-const createProject = createAsyncThunk(
+export const createProject = createAsyncThunk(
   'project/createProject',
   async (project, {getState, rejectWithValue}) => {
     try {
@@ -47,7 +47,7 @@ const createProject = createAsyncThunk(
     }
   },
 );
-const fetchProjects = createAsyncThunk(
+export const fetchProjects = createAsyncThunk(
   'project/fetchProjects',
   async (arg, {getState, rejectWithValue}) => {
     try {
@@ -59,5 +59,3 @@ const fetchProjects = createAsyncThunk(
     }
   },
 );
-
-export {fetchProjects, updateProject, deleteProject, createProject};

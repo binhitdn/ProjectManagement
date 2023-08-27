@@ -42,6 +42,7 @@ const systemSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
+        console.log('Token: ', action.payload);
         AsyncStorage.setItem('token', action.payload.token);
         Alert.alert('Success', 'Login success');
       })
