@@ -3,15 +3,19 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {COLORS} from '@constants/styles';
 
-const ModalComponent = ({children, isVisible, setModalVisible, ...props}) => {
+const ModalComponent = ({
+  children,
+  textHeader,
+  isVisible,
+  setModalVisible,
+  ...props
+}) => {
   return (
     <Modal animationType="slide" transparent={true} visible={isVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalView}>
           <View style={styles.modalHeader}>
-            <Text style={styles.modalHeaderText}>
-              パスワードを忘れましたか？
-            </Text>
+            <Text style={styles.modalHeaderText}>{textHeader}</Text>
             <Icon
               name="close"
               size={20}

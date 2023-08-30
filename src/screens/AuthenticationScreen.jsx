@@ -1,8 +1,8 @@
 import {View, ImageBackground, StyleSheet, StatusBar} from 'react-native';
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import RegisterTab from '@components/Login/TabComponent/RegisterTab';
-import LoginTab from '@components/Login/TabComponent/LoginTab';
+import RegisterTab from '@components/auth/TabComponent/Register/RegisterTab';
+import LoginTab from '@components/auth/TabComponent/Login/LoginTab';
 import {COLORS} from '@constants/styles';
 import {Container} from '@components/customize';
 

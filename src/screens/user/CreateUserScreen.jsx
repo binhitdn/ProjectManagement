@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {createUser} from '@redux/actions/userActions';
 import {useNavigation} from '@react-navigation/native';
 import roles from '@constants/role';
+import {resetError} from '@redux/slices/userSlice';
 
 const CreateUserScreen = () => {
   const [firstName, setFirstName] = useState('');

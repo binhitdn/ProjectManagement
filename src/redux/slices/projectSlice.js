@@ -47,11 +47,13 @@ const projectSlice = createSlice({
         if (index !== -1) {
           state.projects[index] = action.payload.data;
         }
-        Alert.alert('Success', 'Update project success');
+        Alert.alert('成功', 'プロジェクトの更新を成功します。');
       })
       .addCase(updateProject.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+        Alert.alert('エラー', 'プロジェクトの更新を失敗します。');
+        state.error = null;
       })
       .addCase(deleteProject.pending, state => {
         state.loading = true;
@@ -62,12 +64,13 @@ const projectSlice = createSlice({
         state.projects = state.projects.filter(
           project => project._id !== action.payload.projectId,
         );
-        Alert.alert('Success', 'Delete project success');
+        Alert.alert('成功', 'プロジェクトの削除を成功します。');
       })
       .addCase(deleteProject.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-        Alert.alert('Error', action.error.message);
+        Alert.alert('エラー', 'プロジェクトの削除を失敗します。');
+        state.error = null;
       })
       .addCase(createProject.pending, state => {
         state.loading = true;
@@ -76,12 +79,13 @@ const projectSlice = createSlice({
       .addCase(createProject.fulfilled, (state, action) => {
         state.loading = false;
         state.projects.push(action.payload.data);
-        Alert.alert('Success', 'Create project success');
+        Alert.alert('成功', 'プロジェクトの作成を成功します。');
       })
       .addCase(createProject.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.error;
-        Alert.alert('Error', action.payload.error);
+        Alert.alert('エラー', 'プロジェクトの作成を失敗します。');
+        state.error = null;
       });
   },
 });

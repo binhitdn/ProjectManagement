@@ -17,11 +17,7 @@ const initialState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    resetError: (state, action) => {
-      state.error[action.payload] = null;
-    },
-  },
+
   extraReducers: builder => {
     builder
       .addCase(fetchUsers.pending, state => {
@@ -53,7 +49,7 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-        Alert.alert('エラー', action.error.message);
+        Alert.alert('エラー', 'ユーザーの更新を失敗します。');
       })
       .addCase(deleteUser.pending, state => {
         state.loading = true;
@@ -69,7 +65,7 @@ const userSlice = createSlice({
       .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false;
         state.error.deleteUser = action.error.message;
-        Alert.alert('エラー', action.error.message);
+        Alert.alert('エラー', 'ユーズの削除を失敗します。');
       })
       .addCase(createUser.pending, state => {
         state.loading = true;
@@ -83,7 +79,9 @@ const userSlice = createSlice({
       .addCase(createUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-        Alert.alert('エラー', action.error.message);
+        Alert.alert('エラー', 'ユーズの作成を失敗します。');
+        // Reset the error state to null after error is handled
+        state.error = null;
       });
   },
 });

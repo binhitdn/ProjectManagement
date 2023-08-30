@@ -3,7 +3,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {COLORS} from '@constants/styles';
 import {ButtonComponent, Form, Input} from '@components/customize';
-import styles from '@components/Login/TabComponent/authStyle';
+import styles from '@components/auth/TabComponent/authStyle';
 import {register} from '@redux/slices/authSlice';
 import {useDispatch} from 'react-redux';
 
@@ -47,7 +47,9 @@ const RegisterTab = () => {
     return () => {
       keyboardDidHideListener.remove();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   // handleRegister function
   const handleRegister = async () => {
     dispatch(
@@ -84,7 +86,6 @@ const RegisterTab = () => {
             onChangeText={text => handleChange('firstName', text)}
             containerStyle={{flex: 1}}
             leftIcon={<Icon name="user" size={20} color={COLORS.ICON} />}
-            // onSubmitEditing={() => refs.lastName.current.focus()}
           />
           <Input
             type="text"
@@ -96,7 +97,6 @@ const RegisterTab = () => {
             onChangeText={text => handleChange('lastName', text)}
             containerStyle={{flex: 1}}
             leftIcon={<Icon name="user" size={20} color={COLORS.ICON} />}
-            // onSubmitEditing={() => refs.email.current.focus()}
           />
         </Form.View>
 
@@ -112,7 +112,6 @@ const RegisterTab = () => {
           leftIcon={<Icon name="user" size={20} color={COLORS.ICON} />}
           onSubmitEditing={() => {
             refs.scrollView.current.scrollToEnd({animated: true});
-            // refs.password.current.focus();
           }}
         />
 
@@ -127,7 +126,6 @@ const RegisterTab = () => {
           onChangeText={text => handleChange('password', text)}
           onFocus={() => refs.scrollView.current.scrollToEnd({animated: true})}
           leftIcon={<Icon name="lock" size={20} color={COLORS.ICON} />}
-          // onSubmitEditing={() => refs.confirmPassWord.current.focus()}
         />
 
         <Input

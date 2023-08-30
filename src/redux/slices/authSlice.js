@@ -44,12 +44,12 @@ const systemSlice = createSlice({
         state.token = action.payload.token;
         console.log('Token: ', action.payload);
         AsyncStorage.setItem('token', action.payload.token);
-        Alert.alert('Success', 'Login success');
+        Alert.alert('成功', 'ロギング成功');
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-        Alert.alert('Error', action.error.message);
+        Alert.alert('エラー', 'ロギング失敗');
       })
       .addCase(register.pending, state => {
         state.loading = true;
@@ -59,12 +59,12 @@ const systemSlice = createSlice({
         state.loading = false;
         state.token = action.payload.token;
         AsyncStorage.setItem('token', action.payload.token);
-        Alert.alert('Success', 'Register success');
+        Alert.alert('成功', '登録成功');
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-        Alert.alert('Error', action.error.message);
+        Alert.alert('エラー', '登録失敗');
       });
   },
 });

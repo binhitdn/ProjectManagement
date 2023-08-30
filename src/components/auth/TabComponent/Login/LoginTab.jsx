@@ -2,8 +2,8 @@ import {Text, View, Keyboard, TouchableOpacity, Alert} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import {COLORS} from '@constants/styles';
-import styles from '@components/Login/TabComponent/authStyle';
-import SocialConnectOptions from './SocialConnectOptions';
+import styles from '@components/auth/TabComponent/authStyle';
+import SocialConnectOptions from '../SocialConnectOptions';
 import {useDispatch} from 'react-redux';
 import {login} from '@redux/slices/authSlice';
 import {ButtonComponent, Input, ModalComponent} from '@components/customize';
@@ -18,8 +18,9 @@ const LoginTab = () => {
     password: '',
     showPassword: false,
   });
-  const [modalVisible, setModalVisible] = React.useState(false);
-  const [modalVisible2, setModalVisible2] = React.useState(false);
+  const [modalEnterEmailForgot, setModalEnterEmailForgot] =
+    React.useState(false);
+  const [modalResetPassword, setModalResetPassword] = React.useState(false);
   const [emailReset, setEmailReset] = React.useState('');
   const [passwordReset, setPasswordReset] = React.useState('');
   const [passwordConfirmReset, setPasswordConfirmReset] = React.useState('');
@@ -64,23 +65,24 @@ const LoginTab = () => {
     return () => {
       keyboardDidHideListener.remove();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleForgotPassword = async () => {
     try {
-      setModalVisible(false);
+      setModalEnterEmailForgot(false);
       dispatch(toggleLoading(true));
       const res = await handleForgotPasswordApi(emailReset);
       setResetUrl(res.data.resetUrl);
 
       if (res.data.success) {
-        setModalVisible2(true);
+        setModalResetPassword(true);
       } else {
-        setModalVisible(true);
+        setModalEnterEmailForgot(true);
         Alert.alert('Error', 'メールアドレスが見つかりません。');
       }
       dispatch(toggleLoading(false));
     } catch (error) {
-      setModalVisible(true);
+      setModalEnterEmailForgot(true);
       Alert.alert('Error', 'メールアドレスが見つかりません。');
     } finally {
       setEmailReset('');
@@ -95,7 +97,7 @@ const LoginTab = () => {
         password: passwordReset,
       });
       if (res.data.success) {
-        setModalVisible2(false);
+        setModalResetPassword(false);
         Alert.alert('Success', 'パスワードが変更されました。');
       } else {
         Alert.alert('Error', 'パスワードが変更されませんでした。');
@@ -123,7 +125,6 @@ const LoginTab = () => {
           value={form.email}
           onChangeText={text => handleChange('email', text)}
           leftIcon={<Icon name="user" size={20} color={COLORS.ICON} />}
-          // onSubmitEditing={() => refs.password.current.focus()}
         />
 
         <Input
@@ -142,7 +143,7 @@ const LoginTab = () => {
         <TouchableOpacity
           style={styles.forgotPassword}
           onPress={() => {
-            setModalVisible(true);
+            setModalEnterEmailForgot(true);
           }}>
           <Text style={styles.forgotPasswordText}>
             パスワードを忘れましたか？
@@ -153,8 +154,9 @@ const LoginTab = () => {
         <SocialConnectOptions />
       </View>
       <ModalComponent
-        isVisible={modalVisible}
-        setModalVisible={setModalVisible}>
+        textHeader={'パスワードを忘れましたか？'}
+        isVisible={modalEnterEmailForgot}
+        setModalVisible={setModalEnterEmailForgot}>
         <Input
           type="text"
           placeholder="Eメール"
@@ -170,14 +172,15 @@ const LoginTab = () => {
         <TouchableOpacity
           style={styles.forgotPassword}
           onPress={() => {
-            setModalVisible(false);
+            setModalEnterEmailForgot(false);
           }}>
           <Text style={styles.forgotPasswordText}>戻る</Text>
         </TouchableOpacity>
       </ModalComponent>
       <ModalComponent
-        isVisible={modalVisible2}
-        setModalVisible={setModalVisible2}>
+        textHeader={'パスワードをリセット'}
+        isVisible={modalResetPassword}
+        setModalVisible={setModalResetPassword}>
         <Input
           type="text"
           placeholder="パスワード"

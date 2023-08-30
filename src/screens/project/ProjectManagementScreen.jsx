@@ -13,6 +13,8 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import SearchInput from '@components/customize/Input/SearchInput';
 import Header from '@components/Header';
 import {fetchProjects} from '@redux/actions/projectActions';
+import STATUS from '@constants/status';
+import {COLORS} from '@constants/styles';
 
 const ProjectManagement = ({navigation}) => {
   const [search, setSearch] = React.useState('');
@@ -91,14 +93,8 @@ const ProjectItem = ({project}) => {
   const navigation = useNavigation();
 
   const getStatusColor = status => {
-    switch (status) {
-      case 'in_progress':
-        return '#FFD700';
-      case 'completed':
-        return '#00FF00';
-      default:
-        return '#FF0000';
-    }
+    const statusObj = STATUS.find(item => item.value === status);
+    return statusObj.color;
   };
 
   return (
@@ -113,16 +109,16 @@ const ProjectItem = ({project}) => {
       <View style={styles.projectInfo}>
         <Text style={styles.projectTitle}>{project.name}</Text>
         <Text style={styles.projectCustomer}>顧客: {project.customer}</Text>
-        <Text
-          style={[
-            styles.projectStatus,
-            {color: getStatusColor(project.status)},
-          ]}>
-          ステータス : {project.status}
-        </Text>
         <Text style={styles.projectSkills}>
           スキル: {project.skills.join(', ')}
         </Text>
+        <View
+          style={[
+            styles.projectStatus,
+            {backgroundColor: getStatusColor(project.status)},
+          ]}>
+          <Text style={styles.projectStatusText}>{project.status}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -154,6 +150,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 4,
     elevation: 3,
+    borderBottomWidth: 1,
+    borderColor: '#e0e0e0',
   },
   projectInfo: {
     flex: 1,
@@ -162,6 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 4,
+    color: COLORS.BLACK,
   },
   projectCustomer: {
     fontSize: 14,
@@ -169,8 +168,18 @@ const styles = StyleSheet.create({
   },
   projectStatus: {
     fontSize: 14,
-    marginBottom: 4,
+    marginVertical: 5,
+    paddingVertical: 5,
+    alignSelf: 'flex-start',
+    borderRadius: 5,
   },
+  projectStatusText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+    paddingHorizontal: 10,
+  },
+
   projectSkills: {
     fontSize: 14,
   },
